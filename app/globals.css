@@ -26,3 +26,105 @@ body {
   }
 }
 
+/* ================ NAVBAR ================= */
+.custom-navbar {
+  padding: 2rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: auto;
+  border-radius: 10px;
+}
+
+/* ================ LINK PAGE ================= */
+/* Make sure the parent containers do not restrict drag area */
+.container {
+  position: relative;
+  overflow: visible;
+}
+.content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.left-content,
+.right-content {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.left-content {
+  width: 42%;
+  position: relative;
+}
+
+.right-content {
+  width: 56%;
+}
+
+.phone-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 10%;
+}
+
+.phone-img {
+  object-fit: cover;
+  width: 60%;
+  height: auto;
+}
+
+.phone-contents {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 40%;
+}
+
+.avatar-circle {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-left: 5rem;
+}
+
+.title-email-name {
+  border-radius: 10px;
+  height: 20px;
+  width: 150px;
+  margin-left: 3.5rem;
+}
+
+.link-content {
+  background-color: rgb(250 250 250);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.link-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link-body {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.link-selector {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(219, 219, 219);
+}

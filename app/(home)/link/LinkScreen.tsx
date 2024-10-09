@@ -33,18 +33,11 @@ const LinksPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-10">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-5xl">
-        <div className="flex justify-between mb-6">
-          <h1 className="text-2xl font-bold">Customize your links</h1>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={addLink}>
-            + Add new link
-          </button>
-        </div>
-
-        <div className="flex space-x-10">
+    <div className="min-h-screen bg-gray-100 flex justify-around pt-5 items-start">
+      <div className="rounded-lg w-full max-w-5xl">
+        <div className="flex space-x-5">
           {/* Left side mockup (mobile preview) */}
-          <div className="bg-gray-50 rounded-lg shadow-md w-64 p-4">
+          <div className="rounded-lg w-64 p-4 bg-white shadow-lg">
             <div className="bg-gray-200 h-32 rounded-full mb-4"></div>
             {links.map((link) => (
               <div key={link.id} className={`flex items-center space-x-3 mb-3 rounded-lg p-2 
@@ -57,7 +50,21 @@ const LinksPage = () => {
           </div>
 
           {/* Right side (form inputs) */}
-          <div className="flex-grow">
+          <div className="flex-grow bg-white shadow-lg p-4">
+            <div className="grid mb-6 gap-2">
+              <h1 className="text-2xl font-bold">Customize your links</h1>
+              <p className='text-gray-500 text-sm font-thin'>
+                Add/edit/remove links below and then share all your profiles with the world!
+              </p>
+
+              <button
+                className="text-[#7860df] border border-[#7860df] px-4 py-2 rounded-lg font-thin text-sm mb-4"
+                onClick={addLink}
+              >
+                + Add new link
+              </button>
+            </div>
+
             {links.map((link) => (
               <div key={link.id} className="mb-6">
                 <div className="flex items-center space-x-3">
@@ -80,7 +87,7 @@ const LinksPage = () => {
                     Remove
                   </button>
                 </div>
-                
+
                 <div className="mt-3">
                   <label htmlFor={`url-${link.id}`} className="block font-semibold mb-1">
                     Link
@@ -96,6 +103,7 @@ const LinksPage = () => {
                 </div>
               </div>
             ))}
+
             <button className="bg-blue-500 text-white px-6 py-2 rounded-lg mt-6">Save</button>
           </div>
         </div>
