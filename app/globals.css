@@ -94,14 +94,14 @@ body {
   border-radius: 50%;
   height: 100px;
   width: 100px;
-  margin-left: 5rem;
+  margin-left: 25%;
 }
 
 .title-email-name {
   border-radius: 10px;
   height: 20px;
   width: 150px;
-  margin-left: 3.5rem;
+  margin-left: 15%;
 }
 
 .link-content {
@@ -127,4 +127,9 @@ body {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid rgb(219, 219, 219);
+}
+
+.profile-img-picker {
+  object-fit: cover;
+  background-color: #1717175b;
 }

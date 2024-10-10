@@ -1,0 +1,168 @@
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            timestamp:
+              type: string
+        statusCode:
+          required: true
+          enum:
+            - 200
+            - 300
+            - 400
+            - 500
+            - 600
+          type: number
+        success:
+          required: true
+          type: boolean
+        message:
+          required: true
+          type: string
+        data:
+          required: true
+          oneOf:
+            - type: object
+            - type: array
+            - type: string
+            - type: nullable
+        error:
+          nullable: true
+          oneOf:
+            - type: array
+              items:
+                properties:
+                  name:
+                    type: string
+                  message:
+                    type: string
+                  code:
+                    type: string
+                  extra:
+                    oneOf:
+                      - type: string
+                      - type: object
+            - type: object
+              properties:
+                name:
+                  type: string
+                message:
+                  type: string
+                code:
+                  type: string
+                extra:
+                  oneOf:
+                    - type: string
+                    - type: object
+            - type: string
+            - type: nullable
+
+    HealthResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+              example:
+                live: true
+              properties:
+                live:
+                  type: boolean
+
+    DefaultResponse:
+      description: default api response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+
+    DefaultResultResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              required: true
+              type: array
+              items:
+                type: object
+
+    SignupResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+            message:
+              example: Your account has been successfully created
+            error:
+              example: null
+
+    SignupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+        email:
+          type: string
+          required: true
+        password:
+          type: string
+          required: true
+        verification_code:
+          type: string
+          required: false
+
+    SigninResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+            message:
+              example: User signed in successfully
+            error:
+              example: null
+
+    SigninRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          required: true
+        password:
+          type: string
+          required: true
+
+    SignOutResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+              example: null
+            message:
+              example: User signed out successfully
+            error:
+              example: null
+
+    VerifyTokenResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+            message:
+              example: User token verified success
+            error:
+              example: null

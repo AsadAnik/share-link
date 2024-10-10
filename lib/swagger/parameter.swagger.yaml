@@ -1,0 +1,22 @@
+components:
+  parameters:
+    SignupParameter:
+      in: header
+      name: x-provider-token
+      description: This is required for provider registration. Please provide either a token or a request body to complete the registration.
+
+    SigninParameter:
+      in: header
+      name: x-provider-token
+      description: This is required for provider registration. Please provide either a token or a request body to sign-in.
+
+    SecretParameter:
+      in: header
+      name: x-secret-token
+      description: Use application secret token to access internal endpoint.
+      required: true
+
+    UsersProfileParameter:
+      in: path
+      name: user_name
+      description: Use user name to get profile.

@@ -1,0 +1,139 @@
+paths:
+  # region - SignUp endpoint
+  /api/auth/signup:
+    post:
+      description: Signup a new user using credentials or providers
+      summary: Signup new user
+      tags:
+        - Authentication
+      parameters:
+        - $ref: "#/components/parameters/SignupParameter"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupRequest"
+      responses:
+        200:
+          description: signup success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignupResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  # region - SignIn endpoint
+  /api/auth/signin:
+    post:
+      description: Sign-in a user using credentials or providers
+      summary: Sign-in a user
+      tags:
+        - Authentication
+      parameters:
+        - $ref: "#/components/parameters/SigninParameter"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SigninRequest"
+      responses:
+        200:
+          description: Sing-in success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SigninResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  # region - SignOut endpoint
+  /api/auth/signout:
+    get:
+      description: Sign-out a user using authentication header
+      summary: Sign-out a user
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: Sign-out success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignOutResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  # region - Verify Token endpoint
+  /api/auth/verify-token:
+    get:
+      description: verity a user token using authentication header
+      summary: verify user authentication token
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: verify token success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyTokenResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  # region - User endpoint
+  /api/user:
+    get:
+      description: It will retrieve the current user details.
+      summary: get current user
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - User
+      responses:
+        200:
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+    put:
+      description: update user profile information.
+      summary: update user
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - User
+      responses:
+        200:
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  /api/user/{user_name}:
+    get:
+      description: It will retrieve the user profile information.
+      summary: get user profile
+      tags:
+        - User
+      parameters:
+        - $ref: "#/components/parameters/UsersProfileParameter"
+      responses:
+        200:
+          description: profile response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
