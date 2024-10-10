@@ -1,3 +1,5 @@
+import { z } from 'zod';
+import { SingUpSchema, SingInSchema } from '@/shared/validations';
 import { IUnsafeObject } from './type';
 
 export enum EAuthAction {
@@ -5,14 +7,20 @@ export enum EAuthAction {
   SIGNUP = 'singup',
 }
 
+export type TSingUp = z.infer<typeof SingUpSchema>;
+export type TSingIn = z.infer<typeof SingInSchema>;
+
 export interface IAuthUser {
   uid: string;
   displayName: string;
+  lname?: string;
+  fname?: string;
   email: string;
-  photoUrl: string;
+  photoUrl?: string;
   emailVerified: boolean;
   disabled?: boolean;
   accessToken: string;
+  customToken?: string;
   tokenExpireAt?: number;
 }
 

@@ -107,7 +107,10 @@ components:
     SignupRequest:
       type: object
       properties:
-        name:
+        fname:
+          type: string
+          required: true
+        lname:
           type: string
           required: true
         email:
@@ -166,3 +169,44 @@ components:
               example: User token verified success
             error:
               example: null
+
+    UserProfileUpdateRequest:
+      type: object
+      properties:
+        fname:
+          type: string
+          required: true
+        lname:
+          type: string
+          required: true
+        email:
+          type: string
+          required: true
+        password:
+          type: string
+          required: true
+        verification_code:
+          type: string
+          required: false
+          
+    LinkResponse:
+      allOf:
+        - $ref: "#/components/schemas/ApiResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+            message:
+              example: Your account has been successfully created
+            error:
+              example: null
+
+    LinkRequest:
+      type: object
+      properties:
+        platform:
+          type: string
+          required: true
+        link:
+          type: string
+          required: true

@@ -1,4 +1,21 @@
 paths:
+  # region - Health Check
+  /api/health:
+    get:
+      description: Signup a new user using credentials or providers
+      summary: Check the Health of API First
+      tags:
+        - Health Check
+      responses:
+        200:
+          description: health check success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
   # region - SignUp endpoint
   /api/auth/signup:
     post:
@@ -110,6 +127,11 @@ paths:
         - BearerAuth: [bearer]
       tags:
         - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdateRequest"
       responses:
         200:
           description: user response
@@ -120,17 +142,138 @@ paths:
         default:
           $ref: "#/components/schemas/DefaultResponse"
 
-  /api/user/{user_name}:
-    get:
-      description: It will retrieve the user profile information.
-      summary: get user profile
+    patch:
+      description: Update user profile information, including profile image upload.
+      summary: Update user profile
+      security:
+        - BearerAuth: [bearer]
       tags:
         - User
-      parameters:
-        - $ref: "#/components/parameters/UsersProfileParameter"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Profile image to upload.
       responses:
         200:
-          description: profile response
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+    delete:
+      description: Delete user profile information and releated all data purge.
+      summary: Delete User Account
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - User
+      responses:
+        200:
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  # /api/user/{user_name}:
+  #   get:
+  #     description: It will retrieve the user profile information.
+  #     summary: get user profile
+  #     tags:
+  #       - User
+  #     parameters:
+  #       - $ref: "#/components/parameters/UsersProfileParameter"
+  #     responses:
+  #       200:
+  #         description: profile response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/DefaultResponse"
+  #       default:
+  #         $ref: "#/components/schemas/DefaultResponse"
+
+  # region - User endpoint
+  /api/link:
+    post:
+      description: It will create new link.
+      summary: Create Link
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - Link
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkRequest"
+      responses:
+        200:
+          description: link response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LinkResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+    get:
+      description: It will retrieve all links.
+      summary: Get Links
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - Link
+      responses:
+        200:
+          description: link response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+
+  /api/link/{link_id}:
+    put:
+      description: update link information.
+      summary: update link
+      security:
+        - BearerAuth: [bearer]
+      tags:
+        - Link
+      responses:
+        200:
+          description: link response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        default:
+          $ref: "#/components/schemas/DefaultResponse"
+    delete:
+      description: Delete the link.
+      summary: Delete a link
+      tags:
+        - Link
+      security:
+        - BearerAuth: [bearer]
+      parameters:
+        - $ref: "#/components/parameters/LinkParameter"
+      responses:
+        200:
+          description: delete song response
           content:
             application/json:
               schema:

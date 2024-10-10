@@ -20,3 +20,9 @@ components:
       in: path
       name: user_name
       description: Use user name to get profile.
+    
+    LinkParameter:
+      in: path
+      name: link_id
+      description: This is the link ID to be operation.
+      required: true

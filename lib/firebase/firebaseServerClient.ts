@@ -22,19 +22,17 @@ const firebaseConfig = {
 // if (!firebase?.apps?.length) {
 //   firebase.initializeApp(firebaseConfig);
 // }
-const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleAuthProvider = new GoogleAuthProvider();
+
 googleAuthProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
-const authSendPasswordResetEmail = async (email: string) =>
-  await sendPasswordResetEmail(auth, email);
-const authWithCustomToken = async (token: string) =>
-  await signInWithCustomToken(auth, token);
+const authSendPasswordResetEmail = async (email: string) => await sendPasswordResetEmail(auth, email);
+const authWithCustomToken = async (token: string) => await signInWithCustomToken(auth, token);
 
 export const FirebaseServerClient = {
   auth,

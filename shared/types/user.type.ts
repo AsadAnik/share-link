@@ -8,7 +8,10 @@ export interface IUserProfile {
   displayName?: string;
   email?: string;
   userName?: string;
+  lname?: string;
+  fname?: string;
   photoUrl?: string;
+  image?: Buffer | null | string;
   isVerified?: boolean;
   createdAt?: string | number;
   sunoAccountID?: string;

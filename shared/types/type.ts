@@ -4,14 +4,12 @@ export type IUnsafeObject<T = unknown> = Record<string, T>;
 
 export enum ECollections {
   PROFILE = 'profiles',
-  PLAYLIST = 'playlists',
-  SONGS = 'songs',
+  LINK = 'links',
 }
 
 export interface ICollections {
   [ECollections.PROFILE]: ECollections;
-  [ECollections.PLAYLIST]: ECollections;
-  [ECollections.SONGS]: ECollections;
+  [ECollections.LINK]: ECollections;
 }
 
 export interface IWhereQuery {
