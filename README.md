@@ -93,17 +93,36 @@ To get a local copy up and running, follow these simple steps:
    Create a `.env.local` file in the root directory and add your Firebase credentials as follows:
 
 ```bash
-   NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
+    APP_DISPLAY_NAME='Dev Links'
+    NODE_ENV=development
+    PORT=3000
+    SECRET_TOKEN='SHARE_LINK'
 
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain
+    # next js public
+    NEXT_PUBLIC_API_URL=http://localhost:${PORT}
+    NEXT_PUBLIC_PORT=${PORT}
+    NEXT_PUBLIC_NODE_ENV=${NODE_ENV}
 
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+    # firebase public
+    NEXT_PUBLIC_FIREBASE_API_KEY=''
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=''
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=''
+    NEXT_PUBLIC_FIREBASE_APP_ID=''
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=''
+    NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=''
 
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+    FIREBASE_STORAGE_BUCKET=''
 
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-
-   NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+    # firebase admin
+    FIREBASE_PROJECT_ID=''
+    FIREBASE_PRIVATE_KEY_ID=''
+    FIREBASE_PRIVATE_KEY=''
+    FIREBASE_CLIENT_EMAIL=''
+    FIREBASE_CLIENT_ID=''
+    FIREBASE_AUTH_URI=''
+    FIREBASE_TOKEN_URI=''
+    FIREBASE_AUTH_PROVIDER_CERT_URL=''
+    FIREBASE_CLIENT_CERT_URL=''
 ```
 
 5\. Start the development server:
@@ -112,36 +131,6 @@ To get a local copy up and running, follow these simple steps:
 ```
 
 6\. Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
-
-## Folder Structure
-
-Here's a breakdown of the key folders and files in this project:
-
-```bash
-
-├── components/         # Reusable UI components
-
-├── pages/
-
-│   ├── api/            # API routes for user and link management
-
-│   ├── link.tsx        # Main screen for customizing links
-
-│   ├── profile.tsx     # Profile details page
-
-│   ├── preview.tsx     # Mobile preview page
-
-│   └── auth/           # SignIn, SignUp pages
-
-├── styles/             # Tailwind CSS and global styles
-
-├── firebase/           # Firebase configuration and helper functions
-
-├── utils/              # Utility functions
-
-└── public/             # Static files like images
-
-```
 
 ## API Endpoints
 
