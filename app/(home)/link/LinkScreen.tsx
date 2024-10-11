@@ -32,9 +32,6 @@ const LinksPage = () => {
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
-
-    console.log('DRAG END RESULT -- ', result);
-
     const newLinks = [...links];
     const [reorderedLink] = newLinks.splice(result.source.index, 1);
     newLinks.splice(result.destination.index, 0, reorderedLink);

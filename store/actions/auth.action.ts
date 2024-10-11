@@ -39,18 +39,20 @@ const authSignin = createAsyncThunk(
       if (
         response?.data?.success &&
         response?.data?.statusCode == HttpStatus.OK
+        
       ) {
         const fbCredentials = await FirebaseClient.authWithCustomToken(
-          response?.data?.data?.accessToken,
+          response?.data?.data?.customToken,
         );
         response.data.data = {
           ...response.data.data,
           ...fbCredentials?.user,
         };
       }
-      setAuthTokenToCookie(response?.data?.data?.accessToken);
 
+      setAuthTokenToCookie(response?.data?.data?.accessToken);
       return response.data;
+
     } catch (error) {
       console.log('failed auth login', error);
       return thunkAPI.rejectWithValue(error);
@@ -68,7 +70,20 @@ const authSignup = createAsyncThunk(
         data: payload,
       });
 
+      if (response?.data?.success && response?.data?.statusCode == HttpStatus.OK) {
+        const fbCredentials = await FirebaseClient.authWithCustomToken(
+          response?.data?.data?.customToken,
+        );
+
+        response.data.data = {
+          ...response.data.data,
+          ...fbCredentials?.user,
+        };
+      }
+
+      setAuthTokenToCookie(response?.data?.data?.accessToken);
       return response.data;
+
     } catch (error) {
       console.log('failed auth signup', error);
       return thunkAPI.rejectWithValue(error);

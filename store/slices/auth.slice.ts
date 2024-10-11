@@ -18,6 +18,7 @@ import { FirebaseClient } from "@/lib/firebase/firebaseClient";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+
 export function prepareAuthResponse(userRecord: IUnsafeObject<any>): IAuthUser {
   return {
     uid: userRecord?.uid,
@@ -75,6 +76,7 @@ export const AuthSlice = createSlice({
       state.user = action.payload;
     },
   },
+
   extraReducers: (builder) => {
     // login action
     builder.addCase(authSignin.pending, (state) => {
@@ -172,6 +174,7 @@ export const AuthSlice = createSlice({
   },
 });
 
+
 const authState = (state: TAppState) => state.authSlice;
 export const authLoadingSelector = createSelector(
   (state: TAppState) => state.authSlice,
@@ -199,6 +202,7 @@ export const authUserSelector = createSelector(authState, (auth) => {
 
   return prepareAuthResponse(currentUser);
 });
+
 
 export function useFirebaseAuthUser() {
   const [authState, setAuthState] = useState<IUnsafeObject<any>>({

@@ -14,9 +14,9 @@ import { ValidationError } from './error.validation';
  */
 export const SingUpSchema = z
     .object({
-        name: createStringSchema('Name', 3, 50),
-        fname: createStringSchema('FName', 3, 50),
-        lname: createStringSchema('LName', 3, 50),
+        // name: createStringSchema('Name', 3, 50),
+        // fname: createStringSchema('FName', 3, 50),
+        // lname: createStringSchema('LName', 3, 50),
         email: createEmailSchema('Email', 100),
         password: createStringSchema('Password', 6, 50),
         confirmPassword: createStringSchema('Confirm Password', 6, 50).optional(),

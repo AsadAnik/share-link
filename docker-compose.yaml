@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  devlink-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    restart: always
+    command: npm run dev
+    volumes:
+       - .:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - devlink-network
+    environment:
+      - NODE_ENV=development
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+    env_file:
+      - .env
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: '1G'
+        reservations:
+          cpus: '1'
+          memory: '556M'
+    healthcheck:
+      test: "curl -s -I http://localhost | head -n 1 | grep 200"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+      start_interval: 10s
+
+networks:
+  devlink-network:
+    driver: bridge
+    external: true
