@@ -78,34 +78,21 @@ To get a local copy up and running, follow these simple steps:
 
 1\. Clone the repository:
 
-   ```bash
-
-   git clone https://github.com/your-username/devlinks.git
-
-   ```
+    `git clone https://github.com/AsadAnik/share-link`
 
 2\. Navigate to the project folder:
 
-   ```bash
-
-   cd devlinks
-
-   ```
+   `cd devlinks`
 
 3\. Install the required dependencies:
 
-   ```bash
-
-   npm install
-
-   ```
+   `npm install`
 
 4\. Set up your environment variables:
 
    Create a `.env.local` file in the root directory and add your Firebase credentials as follows:
 
-   ```bash
-
+```bash
    NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
 
    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain
@@ -117,16 +104,12 @@ To get a local copy up and running, follow these simple steps:
    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
 
    NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
-
-   ```
+```
 
 5\. Start the development server:
-
-   ```bash
-
+```bash
    npm run dev
-
-   ```
+```
 
 6\. Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
