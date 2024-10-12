@@ -34,6 +34,10 @@ Here are some screenshots of the application in action:
 ### Preview Screen
 ![Preview Screen](./public/img/4-screen-shot.png)
 
+### Api Documentation
+![Preview Screen](./public/img/5-screen-shot.png)
+![Preview Screen](./public/img/6-screen-shot.png)
+
 
 ## Table of Contents
 
