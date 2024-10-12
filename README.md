@@ -149,6 +149,8 @@ To get a local copy up and running, follow these simple steps:
 
 6\. Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
+7\. Open [http://localhost:3000/api-docs](http://localhost:3000/api-docs) to view the api documentation in the browser.
+
 ## API Endpoints
 
 Here are the key API routes used in this application:
