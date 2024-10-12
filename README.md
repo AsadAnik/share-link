@@ -18,6 +18,23 @@
 
 - **Built with Modern Technologies**: Next.js 14, React, Firebase, and Tailwind CSS.
 
+## Project Screenshots
+
+Here are some screenshots of the application in action:
+
+### Login Screen
+![Login Screen](./public/img/1-screen-shot.png)
+
+### Links Management
+![Links Management](./public/img/2-screen-shot.png)
+
+### Profile Details
+![Profile Details](./public/img/3-screen-shot.png)
+
+### Preview Screen
+![Preview Screen](./public/img/4-screen-shot.png)
+
+
 ## Table of Contents
 
 - [Project Demo](#project-demo)
