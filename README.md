@@ -38,9 +38,9 @@
 
 - [License](#license)
 
-## Project Demo
+<!-- ## Project Demo
 
-You can find a live demo of this project [here](https://your-live-demo-link.com).
+You can find a live demo of this project [here](https://your-live-demo-link.com). -->
 
 ## Technologies Used
 
