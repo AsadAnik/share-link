@@ -3,7 +3,9 @@ import ProfileScreen from './ProfileScreen';
 
 const LinkPage = (): React.JSX.Element => {
     return (
-        <ProfileScreen />
+        <>
+            <ProfileScreen />
+        </>
     );
 };
 

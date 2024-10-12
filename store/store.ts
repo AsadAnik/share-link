@@ -13,6 +13,7 @@ import {
   AuthSlice,
   AuthReducer,
   ProfileSlice,
+  LinkSlice,
 } from './slices';
 
 const rootPersistConfig = {
@@ -31,6 +32,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   [AuthSlice.name]: persistReducer(authPersistConfig, AuthReducer),
   [ProfileSlice.reducerPath]: ProfileSlice.reducer,
+  [LinkSlice.reducerPath]: LinkSlice.reducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
@@ -40,6 +42,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware: (options: any) => any) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
       ProfileSlice.middleware,
+      LinkSlice.middleware,
     ]),
   devTools: process.env.NODE_ENV === 'development' ? true : false,
 });

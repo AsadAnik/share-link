@@ -62,11 +62,6 @@ const ProfileScreen = (): React.ReactElement => {
         }
     }, [profileData, loadingForProfileData]);
 
-    console.log("Data for Profile - ", profileData);
-    console.log("Data for Loading - ", loadingForProfileData);
-    console.log("fetched after update data -- ", updateProfileFormResult);
-    console.log("FETCHED THE IMAGE UPLOAD after update data -- ", updateProfilePictureResult);
-
 
     // Validation rules for form fields
     const validationRules = {
@@ -128,20 +123,6 @@ const ProfileScreen = (): React.ReactElement => {
     };
 
 
-    // To API for change profile picture
-    // region Change Picture
-    const handleChangeProfilePicture = () => {
-        const formData = new FormData();
-
-        console.log('IMAGE SRC - ', imageSrc);
-        
-        if (imageSrc && imageSrc.trim() !== '') {
-            formData.append("file", imageSrc);
-            updateProfilePicture(formData);
-        }
-    };
-
-
     // Function to handle form submission
     // region Submit Form
     const handleUpdateSubmit = async () => {
@@ -164,7 +145,6 @@ const ProfileScreen = (): React.ReactElement => {
             toast.error("Please fix the errors before submitting.");
         }
     };
-
 
     return (
         <ContentLayoutWrapper

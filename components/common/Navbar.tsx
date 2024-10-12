@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BrandIcon from "@/assets/icon/icon.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,6 +44,20 @@ export default function Navbar(): React.ReactElement {
             toast.error(message as string);
         }
     };
+
+    // To Prevent the page from re-rendering when the error is thrown
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    if (!isClient) {
+        return (
+            <>
+                <h3 className="text-center justify-center items-center">Loading...</h3>
+            </>
+        );
+    }
 
     return (
         <div className="flex w-full containers mx-auto items-center justify-center px-4 py-4 my-4 bg-white h-10 custom-navbar">
