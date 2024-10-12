@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import ContentLayoutWrapper from "@/components/home/ContentLayoutWrapper";
-import { useGetLinksQuery, useCreateLinkMutation, useUpdateLinkMutation, useRemoveLinkMutation } from '@/store';
+import { useGetLinksQuery, useCreateLinkMutation } from '@/store';
 
 interface LinkData {
   id: string;
@@ -19,15 +19,11 @@ const demoLinks = [
 ];
 
 const LinksPage = () => {
-  // const { data: linksData, isLoading: loadingForLinksData } = useGetLinksQuery();
   const { data: linksData } = useGetLinksQuery();
   const [createLinkMutation, createdLinksResult] = useCreateLinkMutation();
-  // const [updateLinkMutation] = useUpdateLinkMutation();
-  // const [removeLinkMutation] = useRemoveLinkMutation();
   const [links, setLinks] = useState<LinkData[]>(demoLinks);
 
-  // This is the links data to be sync here..
-  // region Sync Links Data
+  // region Links Data Sync
   useEffect(() => {
     if (linksData && linksData.length > 0) {
       setLinks(linksData);
@@ -41,33 +37,33 @@ const LinksPage = () => {
   };
 
   const updateLink = (id: string, platform: string, url: string) => {
-    setLinks(links.map(link => (link.id === id.toString() ? { ...link, platform, url } : link)));
+    setLinks(links.map(link => (link.id === id ? { ...link, platform, url } : link)));
   };
 
   const removeLink = (id: string) => {
-    setLinks(links.filter(link => link.id !== id.toString()));
+    setLinks(links.filter(link => link.id !== id));
   };
 
+  // region On Drag End
   const onDragEnd = (result: any) => {
+
+    console.log('This is on Drag Feature here -- ', result);
+
     if (!result.destination) return;
-    const newLinks = [...links];
+    const newLinks = Array.from(links);
     const [reorderedLink] = newLinks.splice(result.source.index, 1);
     newLinks.splice(result.destination.index, 0, reorderedLink);
-
     setLinks(newLinks);
   };
 
-  // Save all links to server
-  // region Save Links to Server
+  // region Save Link to Server
   const handleSaveLinkToServer = async () => {
     try {
       await createLinkMutation(links).unwrap();
-
     } catch (error) {
       console.error("Error saving links:", error);
     }
   };
-
 
   return (
     <ContentLayoutWrapper
@@ -81,46 +77,40 @@ const LinksPage = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="links-list">
           {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="space-y-4"
+            >
               {links.map((link, index) => (
-                <Draggable key={link.id} draggableId={link.id.toString()} index={index}>
+                <Draggable key={link.id} draggableId={link.id} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
-                      {...provided.draggableProps} // Apply draggableProps to the container
-                      className="link-content mb-4 ml-3 mr-3"
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className="p-4 bg-white border border-gray-200 rounded-lg shadow-md transition hover:shadow-lg"
                     >
-                      <div className="link-head space-x-3 text-sm">
-                        <div
-                          className="flex items-center space-x-3"
-                          {...provided.dragHandleProps} // Apply dragHandleProps to make this the drag handle
-                        >
+                      <div className="flex justify-between mb-2">
+                        <div className="flex items-center space-x-2">
                           <HiOutlineMenuAlt4 />
-                          <h3 className="font-extrabold text-gray-500">Link #{index + 1}</h3>
+                          <h3 className="font-bold text-gray-700">Link #{index + 1}</h3>
                         </div>
-
-                        <div className="flex items-center space-x-3">
-                          <button
-                            className="text-gray-500 hover:text-red-700"
-                            onClick={() => removeLink(link.id)}
-                          >
-                            Remove
-                          </button>
-                        </div>
+                        <button
+                          className="text-gray-500 hover:text-red-600"
+                          onClick={() => removeLink(link.id)}
+                        >
+                          Remove
+                        </button>
                       </div>
 
-                      <div className="link-body">
-                        <label
-                          htmlFor={`platform-${link.id}`}
-                          className="font-normal text-gray-600 text-xs"
-                        >
-                          Platform
-                        </label>
+                      <div className="mb-3">
+                        <label htmlFor={`platform-${link.id}`} className="block text-sm font-medium text-gray-600">Platform</label>
                         <select
                           id={`platform-${link.id}`}
                           value={link.platform}
                           onChange={(e) => updateLink(link.id, e.target.value, link.url)}
-                          className="link-selector"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         >
                           <option value="">Select Platform</option>
                           <option value="GitHub">GitHub</option>
@@ -129,19 +119,14 @@ const LinksPage = () => {
                         </select>
                       </div>
 
-                      <div className="link-body">
-                        <label
-                          htmlFor={`url-${link.id}`}
-                          className="font-normal text-gray-600 text-xs"
-                        >
-                          Link
-                        </label>
+                      <div>
+                        <label htmlFor={`url-${link.id}`} className="block text-sm font-medium text-gray-600">Link</label>
                         <input
                           type="text"
                           id={`url-${link.id}`}
                           value={link.url}
                           onChange={(e) => updateLink(link.id, link.platform, e.target.value)}
-                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                           placeholder="https://example.com"
                         />
                       </div>
