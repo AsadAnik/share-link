@@ -83,3 +83,28 @@ export async function removeLink(linkId: string) {
         throw error;
     }
 }
+
+/**
+ * REMOVE Links by User ID
+ // #region Remove Multiple Links
+ * @param userId
+ */
+export async function removeLinksByUserId(userId: string) {
+    try {
+        const collection = DB.collection(firebaseAdminInit.collections.links);
+        const linksSnapshot = await collection.where('user_id', '==', userId).get();
+
+        const batch = DB.batch();
+
+        linksSnapshot.forEach((doc) => {
+            batch.delete(doc.ref);
+        });
+
+        await batch.commit();
+        
+    } catch (error) {
+        const { message } = error as unknown as IUnsafeObject;
+        console.error("Delete Links ERROR: ", message);
+        throw error;
+    }
+}

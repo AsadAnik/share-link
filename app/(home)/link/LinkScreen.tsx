@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import ContentLayoutWrapper from "@/components/home/ContentLayoutWrapper";
+import { useGetLinksQuery, useCreateLinkMutation, useUpdateLinkMutation, useRemoveLinkMutation } from '@/store';
 
 interface LinkData {
   id: string;
@@ -11,12 +12,29 @@ interface LinkData {
   url: string;
 }
 
+const demoLinks = [
+  { id: '1', platform: "GitHub", url: "https://www.github.com/benwright" },
+  { id: '2', platform: "YouTube", url: "https://www.youtube.com/benwright" },
+  { id: '3', platform: "LinkedIn", url: "https://www.linkedin.com/in/benwright" },
+];
+
 const LinksPage = () => {
-  const [links, setLinks] = useState<LinkData[]>([
-    { id: '1', platform: "GitHub", url: "https://www.github.com/benwright" },
-    { id: '2', platform: "YouTube", url: "https://www.youtube.com/benwright" },
-    { id: '3', platform: "LinkedIn", url: "https://www.linkedin.com/in/benwright" },
-  ]);
+  // const { data: linksData, isLoading: loadingForLinksData } = useGetLinksQuery();
+  const { data: linksData } = useGetLinksQuery();
+  const [createLinkMutation, createdLinksResult] = useCreateLinkMutation();
+  // const [updateLinkMutation] = useUpdateLinkMutation();
+  // const [removeLinkMutation] = useRemoveLinkMutation();
+  const [links, setLinks] = useState<LinkData[]>(demoLinks);
+
+  // This is the links data to be sync here..
+  // region Sync Links Data
+  useEffect(() => {
+    if (linksData && linksData.length > 0) {
+      setLinks(linksData);
+    } else {
+      setLinks(demoLinks);
+    }
+  }, [linksData]);
 
   const addLink = () => {
     setLinks([...links, { id: (links.length + 1).toString(), platform: "", url: "" }]);
@@ -39,12 +57,26 @@ const LinksPage = () => {
     setLinks(newLinks);
   };
 
+  // Save all links to server
+  // region Save Links to Server
+  const handleSaveLinkToServer = async () => {
+    try {
+      await createLinkMutation(links).unwrap();
+
+    } catch (error) {
+      console.error("Error saving links:", error);
+    }
+  };
+
+
   return (
-    <ContentLayoutWrapper 
-      links={links} 
-      title="Customize your links" 
+    <ContentLayoutWrapper
+      links={links}
+      title="Customize your links"
       subTitle="Add/edit/remove links below and then share all your profiles with the world!"
       addLink={addLink}
+      handleOnSave={handleSaveLinkToServer}
+      isSaveProcess={createdLinksResult.isLoading}
     >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="links-list">

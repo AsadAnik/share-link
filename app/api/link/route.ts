@@ -23,26 +23,35 @@ export async function GET(_request: NextRequest) {
 }
 
 // region POST /api/link
-// Create new link
+// Create new links, replacing old links for the user
 export async function POST(request: NextRequest) {
     try {
         const authUser = await IsAuthenticated();
         const requestBody = await request.json();
-        const linkInfo: ILink = requestBody;
+        const linksInfo: ILink[] = requestBody;
 
-        const linkData: ILink = {
-            id: uuidv7(),
-            platform: linkInfo.platform,
-            link: linkInfo.link,
-            user_id: authUser?.uid,
-            createdAt: new Date().toISOString(),
-        };
+        // Delete old links for the authenticated user
+        await linkService.removeLinksByUserId(authUser?.uid);
 
-        const createdLink = await linkService.createLink(linkData);
+        // Add new links for the user
+        const createdLinks = [];
+        
+        for (const linkInfo of linksInfo) {
+            const linkData: ILink = {
+                id: uuidv7(),
+                platform: linkInfo.platform,
+                url: linkInfo.url,
+                user_id: authUser?.uid,
+                createdAt: new Date().toISOString(),
+            };
+
+            const createdLink = await linkService.createLink(linkData);
+            createdLinks.push(createdLink);
+        }
 
         return PrepareApiResponse.response({
-            data: createdLink,
-            message: 'Link created',
+            data: createdLinks,
+            message: 'Links created and old links replaced',
         });
     } catch (error) {
         return PrepareApiResponse.errorsResponse(error);

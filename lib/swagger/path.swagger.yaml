@@ -204,11 +204,11 @@ paths:
   #       default:
   #         $ref: "#/components/schemas/DefaultResponse"
 
-  # region - User endpoint
+  # region - Link endpoint
   /api/link:
     post:
-      description: It will create new link.
-      summary: Create Link
+      description: It will create multiple new links.
+      summary: Create Links
       security:
         - BearerAuth: [bearer]
       tags:
@@ -217,16 +217,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LinkRequest"
-      responses:
-        200:
-          description: link response
-          content:
-            application/json:
-              schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/LinkRequest"
+    responses:
+      200:
+        description: Links creation response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
                 $ref: "#/components/schemas/LinkResponse"
-        default:
-          $ref: "#/components/schemas/DefaultResponse"
+      default:
+        $ref: "#/components/schemas/DefaultResponse"
 
     get:
       description: It will retrieve all links.

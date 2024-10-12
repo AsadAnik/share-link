@@ -3,13 +3,13 @@ import { IUnsafeObject } from './type';
 export interface ILink {
   id: string;
   platform: string;
-  link: string;
+  url: string;
   user_id: string;
   createdAt: string;
 }
 
 export interface ILinkSliceState {
-  link: null | ILink;
+  url: null | ILink;
   isLoading: boolean;
   result: null | IUnsafeObject;
 }

@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Phone from "@/assets/img/phone.png";
+import { useGetProfileQuery } from "@/store";
 
 interface ContentLayoutProps {
     children?: React.ReactNode;
@@ -12,6 +13,7 @@ interface ContentLayoutProps {
     addLink?: () => void;
     handleOnSave?: () => void;
     isSaveProcess?: boolean;
+    isLinkCreateProcess?: boolean;
 }
 
 const demoLink = [
@@ -32,15 +34,33 @@ const ContentLayoutWrapper = ({
     addLink,
     handleOnSave,
     isSaveProcess,
+    isLinkCreateProcess
 }: ContentLayoutProps) => {
+    // const { data: profileData, isLoading: loadingForProfileData } = useGetProfileQuery();
+    const { data: profileData } = useGetProfileQuery();
+
+
     return (
         <div className="content-wrapper">
             <section className="left-content">
                 <div className="phone-container relative">
                     <Image src={Phone} alt="Phone" className="phone-img" />
+
                     <div className="absolute top-10 left-5 w-11/12 h-full phone-contents">
-                        <div className="bg-gray-200 mb-4 avatar-circle"></div>
-                        <div className="bg-gray-200 mb-4 title-email-name"></div>
+                        <div className="bg-gray-200 mb-4 avatar-circle">
+                            {profileData?.photoUrl ? (
+                                <img
+                                    src={profileData?.photoUrl ?? ''}
+                                    className="rounded-full"
+                                    alt=""
+                                />
+                            ) : null}
+                        </div>
+
+                        <div className="bg-gray-200 mb-4 title-email-name items-center justify-center flex flex-col">
+                            <p className="text-xs">{profileData?.email}</p>
+                        </div>
+
                         {links.map((link) => (
                             <div
                                 key={link.id}
@@ -64,10 +84,11 @@ const ContentLayoutWrapper = ({
 
                     {addLink && (
                         <button
-                            className="text-[#7860df] border border-[#7860df] px-4 py-2 rounded-lg font-thin text-sm mt-5"
+                            className="text-[#7860df] border border-[#7860df] px-4 py-2 rounded-lg font-thin text-sm mt-5 hover:bg-[#7860df] hover:text-white"
                             onClick={addLink}
+                            disabled={isLinkCreateProcess}
                         >
-                            + Add new link
+                            {isLinkCreateProcess ? "Creating..." : "+ Add new link"}
                         </button>
                     )}
                 </div>
@@ -77,7 +98,7 @@ const ContentLayoutWrapper = ({
                 <hr />
 
                 <div className="flex w-full containers mx-auto items-center justify-end mt-5 mr-2">
-                    <button 
+                    <button
                         className="bg-[#7860df] text-white px-4 py-2 rounded-lg font-thin text-sm flex-end"
                         onClick={handleOnSave}
                         disabled={isSaveProcess}

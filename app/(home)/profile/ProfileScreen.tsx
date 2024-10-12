@@ -5,7 +5,7 @@ import ContentLayoutWrapper from "@/components/home/ContentLayoutWrapper";
 import ProfileImgPicker from "@/components/widgets/ProfileImgPicker";
 import FemaleAvatar from "@/assets/img/female-avatar.png";
 import { toast } from "react-toastify";
-import { useGetProfileQuery, useUpdateProfileFormMutation, useUpdateProfilePictureMutation } from "@/store";
+import { useGetLinksQuery, useGetProfileQuery, useUpdateProfileFormMutation, useUpdateProfilePictureMutation } from "@/store";
 
 interface LinkData {
     id: string;
@@ -13,8 +13,15 @@ interface LinkData {
     url: string;
 }
 
+const demoLinks = [
+    { id: '1', platform: "GitHub", url: "https://www.github.com/benwright" },
+    { id: '2', platform: "YouTube", url: "https://www.youtube.com/benwright" },
+    { id: '3', platform: "LinkedIn", url: "https://www.linkedin.com/in/benwright" },
+];
+
 const ProfileScreen = (): React.ReactElement => {
     const { data: profileData, isLoading: loadingForProfileData } = useGetProfileQuery();
+    const { data: linksData } = useGetLinksQuery();
     const [updateProfilePicture, updateProfilePictureResult] = useUpdateProfilePictureMutation();
     const [updateProfileForm, updateProfileFormResult] = useUpdateProfileFormMutation();
     const [imageSrc, setImageSrc] = useState<string>('');
@@ -27,19 +34,19 @@ const ProfileScreen = (): React.ReactElement => {
         emailError: false,
         emailErrorMsg: "",
     });
+    const [links, setLinks] = useState<LinkData[]>(demoLinks);
 
-    const [links, setLinks] = useState<LinkData[]>([
-        { id: "1", platform: "GitHub", url: "https://www.github.com/benwright" },
-        { id: "2", platform: "YouTube", url: "https://www.youtube.com/benwright" },
-        {
-            id: "3",
-            platform: "LinkedIn",
-            url: "https://www.linkedin.com/in/benwright",
-        },
-    ]);
+    // region Sync Links Data
+    useEffect(() => {
+        if (linksData && linksData.length > 0) {
+            setLinks(linksData);
+        } else {
+            setLinks(demoLinks);
+        }
+    }, [linksData]);
 
 
-    // sync the data here..
+    // region Sync Profile Data
     useEffect(() => {
         if (loadingForProfileData) {
             setProfileFormData({
@@ -64,6 +71,7 @@ const ProfileScreen = (): React.ReactElement => {
 
 
     // Validation rules for form fields
+    // region Validation Rules
     const validationRules = {
         fname: {
             required: true,
@@ -84,6 +92,7 @@ const ProfileScreen = (): React.ReactElement => {
 
 
     // Function to validate the form
+    //  region Validation Function
     const validateForm = (formData: any) => {
         let valid = true;
         let errors = { ...formErrors };
@@ -158,8 +167,8 @@ const ProfileScreen = (): React.ReactElement => {
                 <div className="flex flex-row gap-4 justify-between items-center bg-gray-50 p-8 rounded-lg shadow-md w-full mx-auto">
                     <label htmlFor="#" className="text-sm text-gray-500">Profile picture</label>
 
-                    <ProfileImgPicker 
-                        imageSrc={imageSrc} 
+                    <ProfileImgPicker
+                        imageSrc={imageSrc}
                         setImageSrc={setImageSrc}
                         sendFileTOServer={updateProfilePicture}
                     />
