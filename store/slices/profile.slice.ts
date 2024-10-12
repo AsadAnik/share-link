@@ -14,30 +14,6 @@ export const ProfileSlice = createApi({
     tagTypes: ['Profile', 'PublicProfile'],
     endpoints(build) {
         return {
-            // #region Get Profiles
-            getProfiles: build.query({
-                query: (_payload) => {
-                    return {
-                        url: `/user`,
-                        method: 'GET',
-                        headers: {
-                            accept: 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    };
-                },
-                transformResponse: async (response: IApiResponse, _meta, _arg) => {
-                    const responseData = response?.data as IUserProfile[];
-                    return responseData;
-                },
-                transformErrorResponse: (response: IApiResponse, _meta, _arg) => {
-                    return response;
-                },
-                forceRefetch({ currentArg, previousArg }) {
-                    return currentArg !== previousArg;
-                },
-                providesTags: ['PublicProfile'],
-            }),
             // #region Get Profile (Me)
             getProfile: build.query<IUserProfile, void>({
                 query: (payload: any) => {
@@ -63,12 +39,47 @@ export const ProfileSlice = createApi({
                 },
                 providesTags: ['Profile'],
             }),
+
             // #region Update Profile
             updateProfileForm: build.mutation({
                 query: (payload) => {
                     return {
-                        url: '/user/me',
+                        url: '/user',
                         method: 'PUT',
+                        headers: {
+                            accept: 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        data: payload,
+                    };
+                },
+                transformResponse: async (response: IApiResponse, _meta, _arg) => {
+                    if (response?.success) {
+                        ToastSuccessMessage({
+                            title: 'Profile Success',
+                            message: response?.message as string,
+                        });
+                    }
+                    return response?.data;
+                },
+                transformErrorResponse: (response: IApiResponse, _meta, _arg) => {
+                    if (!response?.success) {
+                        ToastErrorMessage({
+                            title: 'Profile Error',
+                            message: response?.message as string,
+                        });
+                    }
+                    return response?.data;
+                },
+                invalidatesTags: ['Profile'],
+            }),
+
+            // #region Update Profile Picture
+            updateProfilePicture: build.mutation({
+                query: (payload) => {
+                    return {
+                        url: '/user',
+                        method: 'PATCH',
                         headers: {
                             accept: 'application/json',
                             'Content-Type': 'multipart/form-data',
@@ -102,6 +113,6 @@ export const ProfileSlice = createApi({
 
 export const {
     useGetProfileQuery,
-    useGetProfilesQuery,
     useUpdateProfileFormMutation,
+    useUpdateProfilePictureMutation,
 } = ProfileSlice;

@@ -10,6 +10,8 @@ interface ContentLayoutProps {
     title?: string;
     subTitle?: string;
     addLink?: () => void;
+    handleOnSave?: () => void;
+    isSaveProcess?: boolean;
 }
 
 const demoLink = [
@@ -28,6 +30,8 @@ const ContentLayoutWrapper = ({
     title = "Demo Title",
     subTitle = "Demo Subtitle",
     addLink,
+    handleOnSave,
+    isSaveProcess,
 }: ContentLayoutProps) => {
     return (
         <div className="content-wrapper">
@@ -73,8 +77,12 @@ const ContentLayoutWrapper = ({
                 <hr />
 
                 <div className="flex w-full containers mx-auto items-center justify-end mt-5 mr-2">
-                    <button className="bg-[#7860df] text-white px-4 py-2 rounded-lg font-thin text-sm flex-end">
-                        Save
+                    <button 
+                        className="bg-[#7860df] text-white px-4 py-2 rounded-lg font-thin text-sm flex-end"
+                        onClick={handleOnSave}
+                        disabled={isSaveProcess}
+                    >
+                        {isSaveProcess ? "Saving..." : "Save"}
                     </button>
                 </div>
             </section>

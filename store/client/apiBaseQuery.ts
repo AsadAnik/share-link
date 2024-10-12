@@ -35,13 +35,16 @@ export const axiosBaseQuery =
   ) => {
     try {
       const state = api.getState() as { authSlice: IAuthSliceState };
-      const accessToken =
-        state?.authSlice?.user?.accessToken || getAuthTokenFromCookie();
-      console.log({ accessToken, baseUrl: baseUrl + url });
+      // const accessToken = state?.authSlice?.user?.accessToken || getAuthTokenFromCookie();
+      const accessToken = getAuthTokenFromCookie();
+
+      console.log('The TOKEN that needed and the baseURL = ', { accessToken, baseUrl: baseUrl + url });
+
       headers = {
         ...headers,
         Authorization: `bearer ${accessToken}`,
       };
+
       const result = await apiClient.request({
         url: baseUrl + url,
         method,
@@ -52,6 +55,7 @@ export const axiosBaseQuery =
       });
 
       return { data: result?.data };
+
     } catch (errors) {
       const error = errors as IApiResponse;
       // console.log('axiosBaseQuery', error);

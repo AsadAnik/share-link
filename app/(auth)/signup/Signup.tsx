@@ -25,12 +25,18 @@ const Register = () => {
     });
 
     useEffect(() => {
-        if (authResult?.error && typeof authResult.error === 'object' && 'message' in authResult.error) {
-            toast.error(authResult.error.message as string);
-        }
+        if (email.trim() !== '' && password.trim() !== '') {
+            if (authResult?.error && typeof authResult.error === 'object' && 'message' in authResult.error) {
+                toast.error(authResult.error.message as string);
+                setEmail('');
+                setPassword('');
+            }
 
-        if (authResult?.data) {
-            router.push('/signin');
+            if (authResult?.data) {
+                router.push('/signin');
+                setEmail('');
+                setPassword('');
+            }
         }
     }, [authResult]);
 
@@ -63,7 +69,7 @@ const Register = () => {
             <div className="bg-white shadow-md rounded-lg px-10 py-8 w-full max-w-md">
                 <h2 className="text-2xl font-semibold text-center mb-6">Create your devLinks Account</h2>
 
-                <form 
+                <form
                     className={formData.valid ? 'space-y-1' : 'space-y-1'}
                     onSubmit={handleSubmit}
                 >

@@ -14,11 +14,11 @@ export async function createUser(payload: TSingUp) {
     const firebase = FirebaseAdmin.init();
     try {
         const userRecord = await firebase.getAuth().createUser({
-            email: payload?.email as string,
+            email: payload.email,
             emailVerified: true,
-            displayName: payload?.name as string,
-            password: payload?.password as string,
-            photoURL: `${process.env.NEXT_PUBLIC_API_URL}/default-avatar.png`,
+            displayName: payload.email.split('@')[0],
+            password: payload.password,
+            photoURL: `${process.env.NEXT_PUBLIC_API_URL}/img/female-avatar.png`,
             disabled: false,
         });
 
@@ -33,7 +33,6 @@ export async function createUser(payload: TSingUp) {
         throw error;
     }
 }
-
 /**
  * Update User | Update User Profile
  * @param uid 

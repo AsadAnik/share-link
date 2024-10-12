@@ -24,12 +24,18 @@ const Login = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (authResult?.error && typeof authResult.error === 'object' && 'message' in authResult.error) {
-            toast.error(authResult.error.message as string);
-        }
+        if (email.trim() !== '' && password.trim() !== '') {
+            if (authResult?.error && typeof authResult.error === 'object' && 'message' in authResult.error) {
+                toast.error(authResult.error.message as string);
+                setEmail('');
+                setPassword('');
+            }
 
-        if (authResult?.data) {
-            router.push('/link');
+            if (authResult?.data) {
+                router.push('/link');
+                setEmail('');
+                setPassword('');
+            }
         }
     }, [authResult]);
 

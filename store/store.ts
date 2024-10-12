@@ -12,12 +12,13 @@ import storage from './storage';
 import {
   AuthSlice,
   AuthReducer,
+  ProfileSlice,
 } from './slices';
 
 const rootPersistConfig = {
   key: 'root',
   storage,
-  blacklist: [AuthSlice.name],
+  blacklist: [AuthSlice.name, ProfileSlice.reducerPath],
   whiteList: [],
 };
 
@@ -29,6 +30,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   [AuthSlice.name]: persistReducer(authPersistConfig, AuthReducer),
+  [ProfileSlice.reducerPath]: ProfileSlice.reducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
@@ -36,7 +38,9 @@ const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware: (options: any) => any) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat([]),
+    getDefaultMiddleware({ serializableCheck: false }).concat([
+      ProfileSlice.middleware,
+    ]),
   devTools: process.env.NODE_ENV === 'development' ? true : false,
 });
 

@@ -18,7 +18,7 @@ import { FirebaseClient } from "@/lib/firebase/firebaseClient";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-
+// region Prepare Auth Response
 export function prepareAuthResponse(userRecord: IUnsafeObject<any>): IAuthUser {
   return {
     uid: userRecord?.uid,
@@ -28,18 +28,21 @@ export function prepareAuthResponse(userRecord: IUnsafeObject<any>): IAuthUser {
     emailVerified: userRecord?.email_verified ?? userRecord?.emailVerified,
     tokenExpireAt:
       userRecord?.exp ?? userRecord?.stsTokenManager?.expirationTime,
-    accessToken: userRecord?.customToken ?? userRecord?.accessToken,
+    accessToken: userRecord?.accessToken,
+    customToken: userRecord?.customToken ?? userRecord?.stsTokenManager?.customToken,
   };
 }
 
 const AuthSliceName = "authSlice";
 
+// region Initial State
 const initialState: IAuthSliceState = {
   user: null,
   isLoading: false,
   result: null,
 };
 
+// region Auth Slice
 export const AuthSlice = createSlice({
   name: AuthSliceName,
   initialState,
@@ -77,6 +80,7 @@ export const AuthSlice = createSlice({
     },
   },
 
+  // region Extra Reducers
   extraReducers: (builder) => {
     // login action
     builder.addCase(authSignin.pending, (state) => {
@@ -174,7 +178,7 @@ export const AuthSlice = createSlice({
   },
 });
 
-
+// region Selectors
 const authState = (state: TAppState) => state.authSlice;
 export const authLoadingSelector = createSelector(
   (state: TAppState) => state.authSlice,
@@ -194,6 +198,7 @@ export const authUserSelector = createSelector(authState, (auth) => {
     if (authUser?.uid) {
       const result = prepareAuthResponse(authUser);
       setAuthTokenToCookie(result?.accessToken);
+
     } else {
       removeAuthTokenFromCookie();
       return useRouter().push("/signin");
@@ -203,7 +208,7 @@ export const authUserSelector = createSelector(authState, (auth) => {
   return prepareAuthResponse(currentUser);
 });
 
-
+// region Action Hooks
 export function useFirebaseAuthUser() {
   const [authState, setAuthState] = useState<IUnsafeObject<any>>({
     data: null,
@@ -246,6 +251,7 @@ export function useFirebaseAuthUser() {
   return authState;
 }
 
+// region Selectors
 export const accessTokenSelector = createSelector(
   userSelector,
   (user) => !!user?.accessToken

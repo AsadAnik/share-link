@@ -26,6 +26,7 @@ const getAuthTokenFromCookie = (): string | undefined => {
   }
 };
 
+// region Auth Signin
 const authSignin = createAsyncThunk(
   'auth/signin',
   async (payload: IUnsafeObject, thunkAPI) => {
@@ -60,6 +61,7 @@ const authSignin = createAsyncThunk(
   },
 );
 
+// region Auth Signup
 const authSignup = createAsyncThunk(
   'auth/signup',
   async (payload: IUnsafeObject, thunkAPI) => {
@@ -91,6 +93,7 @@ const authSignup = createAsyncThunk(
   },
 );
 
+// region Provider Signin
 const authProviderSignin = createAsyncThunk(
   'auth/providerSignin',
   async (providerToken: string, thunkAPI) => {
@@ -125,6 +128,7 @@ const authProviderSignin = createAsyncThunk(
   },
 );
 
+/// region Provider Signup
 const authProviderSignup = createAsyncThunk(
   'auth/providerSignup',
   async (providerToken: string, thunkAPI) => {
@@ -159,12 +163,14 @@ const authProviderSignup = createAsyncThunk(
   },
 );
 
+// region Auth Signout
 const authSignout = createAsyncThunk(
   'auth/signout',
   async (_payload, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as { authSlice: IAuthSliceState };
-      const accessToken = state?.authSlice?.user?.accessToken ?? '';
+      const accessToken = getAuthTokenFromCookie() ?? '';
+
       const response = await apiClient.request({
         method: 'get',
         url: '/auth/signout',
@@ -173,6 +179,7 @@ const authSignout = createAsyncThunk(
         },
       });
       removeAuthTokenFromCookie();
+
       await FirebaseClient.authSignOut();
 
       return response.data;
@@ -183,6 +190,7 @@ const authSignout = createAsyncThunk(
   },
 );
 
+// region Forgot Password
 const authSendForgotPasswordEmail = createAsyncThunk(
   'auth/sendForgotPasswordEmail',
   async (email: string, thunkAPI) => {

@@ -87,7 +87,6 @@ async function signupWithProvider(providerToken: string) {
         if (profileInfo?.uid && profileInfo.email) {
             await authService.createUser({
                 email: profileInfo.email,
-                name: profileInfo.displayName
             });
         }
 

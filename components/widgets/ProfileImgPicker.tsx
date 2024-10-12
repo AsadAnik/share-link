@@ -5,10 +5,21 @@ import Image from "next/image";
 interface ProfileImagePickerProps {
     imageSrc: string;
     setImageSrc: (src: string) => void;
+    sendFileTOServer: (formData: any) => void;
 }
 
-const ProfileImagePicker = ({ imageSrc, setImageSrc }: ProfileImagePickerProps) => {
+const ProfileImagePicker = ({ imageSrc, setImageSrc, sendFileTOServer }: ProfileImagePickerProps) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    // region Submit To Server
+    const submitToServer = (file: File) => {
+        const formData = new FormData();
+        
+        if (imageSrc && imageSrc.trim() !== '') {
+            formData.append("file", file);
+            sendFileTOServer(formData);
+        }
+    };
 
     // region Handle Change
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +32,7 @@ const ProfileImagePicker = ({ imageSrc, setImageSrc }: ProfileImagePickerProps) 
             };
 
             reader.readAsDataURL(file);
+            submitToServer(file);
         }
     };
 
@@ -34,7 +46,7 @@ const ProfileImagePicker = ({ imageSrc, setImageSrc }: ProfileImagePickerProps) 
 
     return (
         <div className="relative group w-[150px] h-[150px] rounded overflow-hidden">
-            <Image
+            <img
                 src={imageSrc}
                 alt="Profile Image"
                 className="w-full h-full object-cover rounded"
