@@ -39,7 +39,8 @@ export async function middleware(request: NextRequest) {
             if (authTokenFromCookie) {
                 return NextResponse.redirect(new URL('/link', request.url));
             }
-        } else if (requestPath !== '/' && !authTokenFromCookie) {
+        // } else if (requestPath !== '/' && !authTokenFromCookie) {
+        } else if (!authTokenFromCookie) {
             return NextResponse.redirect(new URL('/signin', request.url));
         }
     }
@@ -54,6 +55,7 @@ export async function middleware(request: NextRequest) {
 // See "Matching Paths" below to learn more// Apply middleware to protected routes
 export const config = {
     matcher: [
+        '/',
         '/link',
         '/profile',
         '/preview',

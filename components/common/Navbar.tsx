@@ -11,6 +11,7 @@ import { authAction, useAppDispatch } from "@/store";
 import { authSignout, getAuthTokenFromCookie } from "@/store/actions";
 import { toast } from "react-toastify";
 
+
 export default function Navbar(): React.ReactElement {
     const pathname = usePathname();
     const router = useRouter();
