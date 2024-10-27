@@ -55,7 +55,6 @@ export async function middleware(request: NextRequest) {
 // See "Matching Paths" below to learn more// Apply middleware to protected routes
 export const config = {
     matcher: [
-        '/',
         '/link',
         '/profile',
         '/preview',
