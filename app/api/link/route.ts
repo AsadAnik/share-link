@@ -30,12 +30,21 @@ export async function POST(request: NextRequest) {
         const requestBody = await request.json();
         const linksInfo: ILink[] = requestBody;
 
+        // validate links before processing
+        for (const link of linksInfo) {
+            const validation = validateLink(link);
+
+            if (!validation.valid) {
+                throw new Error(`Validation failed for platform '${link.platform}': ${validation.message}`);
+            }
+        }
+
         // Delete old links for the authenticated user
         await linkService.removeLinksByUserId(authUser?.uid);
 
         // Add new links for the user
         const createdLinks = [];
-        
+
         for (const linkInfo of linksInfo) {
             const linkData: ILink = {
                 id: uuidv7(),
@@ -56,4 +65,40 @@ export async function POST(request: NextRequest) {
     } catch (error) {
         return PrepareApiResponse.errorsResponse(error);
     }
+}
+
+
+
+// Supported platforms and their URL patterns
+// region Validate Supports
+const platformPatterns: Record<string, RegExp> = {
+    facebook: /^https:\/\/(www\.)?facebook\.com\/[A-Za-z0-9.]+$/,
+    twitter: /^https:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+$/,
+    linkedin: /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9-]+$/,
+    github: /^https:\/\/(www\.)?github\.com\/[A-Za-z0-9-]+$/,
+    instagram: /^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+$/,
+    youtube: /^https:\/\/(www\.)?youtube\.com\/[A-Za-z0-9-]+$/,
+    // Add more platforms as needed
+};
+
+/**
+ * VALIDATION OF THE LINKS AND URL WITH PLARFORMS
+ * @param link 
+ * @returns 
+ */
+// region Validate Link
+function validateLink(link: ILink): { valid: boolean; message: string } {
+    const platform = link?.platform?.toLowerCase();
+    const url = link?.url?.toLowerCase();
+
+    if (!platformPatterns[platform]) {
+        return { valid: false, message: `Plartform ${platform} is not supported.` };
+    }
+
+    const urlPattern = platformPatterns[platform];
+    if (!urlPattern.test(url)) {
+        return { valid: false, message: `Invalid URL for platform ${platform}.` };
+    }
+
+    return { valid: true, message: '' };
 }
