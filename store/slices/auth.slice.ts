@@ -54,7 +54,7 @@ export const AuthSlice = createSlice({
     refreshAuth(state, action) {
       FirebaseClient.auth.onAuthStateChanged(async (authUser) => {
         if (authUser?.uid) {
-          const newToken = await authUser.getIdTokenResult();
+          const newToken = await authUser?.getIdTokenResult();
           setAuthTokenToCookie(newToken.token);
           state.user = {
             ...(state.user ?? {}),

@@ -37,18 +37,16 @@ body {
 }
 
 /* ================ LINK PAGE ================= */
-/* Make sure the parent containers do not restrict drag area */
 .container {
   position: relative;
   overflow: visible;
 }
+
 .content-wrapper {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column; /* Default to column on small screens */
   gap: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem;
   padding: 1rem;
   border-radius: 1rem;
 }
@@ -61,12 +59,12 @@ body {
 }
 
 .left-content {
-  width: 42%;
+  width: 100%; /* Full width on small screens */
   position: relative;
 }
 
 .right-content {
-  width: 56%;
+  width: 100%; /* Full width on small screens */
 }
 
 .phone-container {
@@ -133,3 +131,99 @@ body {
   object-fit: cover;
   background-color: #1717175b;
 }
+
+/* Responsive Layout Adjustments */
+
+@media (min-width: 468px) {
+  .content-wrapper {
+    flex-direction: row; 
+    gap: 1.5rem;
+  }
+  .title-email-name{
+    margin-left: 5% !important;
+  }
+
+  .left-content {
+    width: 42%;
+  }
+
+  .right-content {
+    width: 56%;
+  }
+
+  .phone-img {
+    width: 70%;
+  }
+}
+
+@media (min-width: 568px) {
+  .phone-img {
+      width: 60% !important;
+  }
+  .title-email-name{
+    margin-left: 0;
+  }
+}
+
+/* @media (min-width: 556px) {
+  .phone-img {
+      width: 70% !important;
+  }
+} */
+
+@media (min-width: 320px) {
+  .content-wrapper {
+    flex-direction: column; 
+    gap: 1.5rem;
+  }
+  .flex-row {
+    flex-direction: column;
+}
+  .title-email-name{
+    margin-left: -7%;
+  }
+
+  .left-content {
+    width: 80%;
+  }
+
+  .right-content {
+    width: 80%;
+  }
+
+  .phone-img {
+    width: 100%;
+  }
+  .avatar-circle{
+    margin-left: 18%;
+  }
+}
+
+
+@media (min-width: 1068px) {
+  .content-wrapper {
+    flex-direction: row; 
+    gap: 1.5rem;
+  }
+  .title-email-name{
+    margin-left: 15% !important;
+  }
+
+  .left-content {
+    width: 42%;
+  }
+
+  .right-content {
+    width: 56%;
+  }
+
+  .phone-img {
+    width: 70%;
+  }
+
+  .avatar-circle {
+    margin-left: 26%;
+}
+}
+
+

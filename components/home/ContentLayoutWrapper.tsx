@@ -64,7 +64,7 @@ const ContentLayoutWrapper = ({
                         {links.map((link) => (
                             <div
                                 key={link.id}
-                                className={`flex items-center space-x-3 mb-3 rounded-lg p-2
+                                className={`flex items-center md:title-email-name space-x-3 mb-3 rounded-lg p-2
                   ${link.platform === "GitHub" ? "bg-black text-white" : ""}
                   ${link.platform === "YouTube" ? "bg-red-500 text-white" : ""}
                   ${link.platform === "LinkedIn" ? "bg-blue-600 text-white" : ""
