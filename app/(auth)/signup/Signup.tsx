@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 const SignUp = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [loading, setLoading] = useState(false); // Loading state
+    const [loading, setLoading] = useState(false); 
 
     const formik = useForm({
         initialValues: {
@@ -31,7 +31,7 @@ const SignUp = () => {
                 .required('Confirm Password is required'),
         }),
         onSubmit: async (values) => {
-            setLoading(true); // Start loading
+            setLoading(true); 
             try {
                 await dispatch(authSignup(values)).unwrap();
                 toast.success("Signup successful!");
@@ -39,7 +39,7 @@ const SignUp = () => {
             } catch (error: any) {
                 toast.error(error?.message || 'Signup failed. Please try again.');
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false); 
             }
         },
     });
@@ -106,7 +106,7 @@ const SignUp = () => {
                 </form>
 
                 <p className="mt-4 text-center text-sm">
-                    Already have an account?{' '}
+                    Already have an account? 
                     <Link href="/login" className="text-purple-600 hover:underline">
                         Login
                     </Link>

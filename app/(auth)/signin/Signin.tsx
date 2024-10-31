@@ -20,7 +20,7 @@ const Login = () => {
     // State for error messages
     const [loginError, setLoginError] = useState('');
 
-    // Use the custom useForm hook
+    //region Use the custom useForm hook
     const formik = useForm({
         initialValues: {
             email: '',
